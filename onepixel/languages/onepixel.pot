@@ -1,0 +1,280 @@
+# Copyright (C) 2015 Pixiebox
+# This file is distributed under the GPL.
+msgid ""
+msgstr ""
+"Project-Id-Version: onepixel 1.0\n"
+"Report-Msgid-Bugs-To: http://pixiebox.com/contact\n"
+"POT-Creation-Date: 2015-05-13 09:09:55+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-07-14 12:54+0100\n"
+"Last-Translator: Patrick Danhof <info@pixiebox.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.7.6\n"
+
+#: functions.php:26
+#: functions.php:738
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:27
+msgid "Secundairy Menu"
+msgstr ""
+
+#: functions.php:119
+msgid "Main Sidebar"
+msgstr ""
+
+#: functions.php:370
+#: functions.php:1023
+msgid "Read More &raquo;"
+msgstr ""
+
+#: functions.php:377
+msgid "That email appears to be invalid."
+msgstr ""
+
+#: functions.php:378
+msgid "There were errors in submitting your comment; complete the missing fields and try again!"
+msgstr ""
+
+#: functions.php:379
+msgid "Your comment was either a duplicate or you are posting too rapidly. <a href="%s">Edit your comment</a>"
+msgstr ""
+
+#: functions.php:380
+msgid "Processing..."
+msgstr ""
+
+#: functions.php:381
+msgid "This is a required field."
+msgstr ""
+
+#: functions.php:442
+msgid "You said"
+msgstr ""
+
+#: functions.php:461
+msgid "Thanks for commenting! Your comment has been approved. <a href="%s">Read your comment</a>"
+msgstr ""
+
+#: functions.php:470
+msgid "There was an error posting your comment. Try again later!"
+msgstr ""
+
+#: functions.php:510
+msgid "Layout properties"
+msgstr ""
+
+#: functions.php:516
+msgid "Width"
+msgstr ""
+
+#: functions.php:518
+msgid "Full width"
+msgstr ""
+
+#: functions.php:519
+msgid "Container"
+msgstr ""
+
+#: functions.php:527
+msgid "Swipe orientation"
+msgstr ""
+
+#: functions.php:529
+msgid "default"
+msgstr ""
+
+#: functions.php:530
+msgid "left to right"
+msgstr ""
+
+#: functions.php:531
+msgid "right to left"
+msgstr ""
+
+#: functions.php:532
+msgid "upwards"
+msgstr ""
+
+#: functions.php:538
+msgid "Choose background color"
+msgstr ""
+
+#: functions.php:545
+msgid "Choose background image"
+msgstr ""
+
+#: functions.php:551
+#: functions.php:656
+msgid "Enable srcBox"
+msgstr ""
+
+#: functions.php:557
+msgid "Choose text color"
+msgstr ""
+
+#: functions.php:564
+msgid "Panel Background properties"
+msgstr ""
+
+#: functions.php:569
+#: functions.php:595
+msgid "Properties"
+msgstr ""
+
+#: functions.php:571
+msgid "Panel"
+msgstr ""
+
+#: functions.php:591
+msgid "Parallax Background properties"
+msgstr ""
+
+#: functions.php:599
+msgid "Parallax {#}"
+msgstr ""
+
+#: functions.php:632
+msgid "Gallery"
+msgstr ""
+
+#: functions.php:641
+msgid "Layout"
+msgstr ""
+
+#: functions.php:643
+msgid "1 column"
+msgstr ""
+
+#: functions.php:644
+msgid "2 columns"
+msgstr ""
+
+#: functions.php:645
+msgid "3 columns"
+msgstr ""
+
+#: functions.php:651
+msgid "Apply Masonry"
+msgstr ""
+
+#: functions.php:782
+msgid "srcBox breakpoints"
+msgstr ""
+
+#: functions.php:789
+msgid "Breakpoints"
+msgstr ""
+
+#: functions.php:797
+msgid "Breakpoint mobile"
+msgstr ""
+
+#: functions.php:811
+msgid "Breakpoint mobile retina @2"
+msgstr ""
+
+#: functions.php:815
+msgid "Breakpoint tablet"
+msgstr ""
+
+#: functions.php:819
+msgid "Breakpoint desktop"
+msgstr ""
+
+#: functions.php:823
+msgid "Breakpoint tablet retina @2 / mobile retina @3"
+msgstr ""
+
+#: functions.php:875
+msgid "Preferably check all breakpoints to load the most appropiate image for each device."
+msgstr ""
+
+#: archive.php:34
+#: search.php:21
+#: single.php:22
+msgid "Comments"
+msgstr ""
+
+#: archive.php:48
+#: search.php:40
+#: single.php:50
+msgid "Next:"
+msgstr ""
+
+#: archive.php:50
+#: search.php:38
+#: single.php:53
+msgid "Previous:"
+msgstr ""
+
+#: single.php:32
+msgid "This post was written by %s"
+msgstr ""
+
+#: single.php:51
+msgid "Next post:"
+msgstr ""
+
+#: single.php:54
+msgid "Previous post:"
+msgstr ""
+
+#: search.php:12
+msgid "Search Results for: %s"
+msgstr ""
+
+#: search.php:31
+msgid "Nothing Found"
+msgstr ""
+
+#: search.php:33
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr ""
+
+#: search.php:41
+msgid "Next search results:"
+msgstr ""
+
+#: search.php:39
+msgid "Previous search results:"
+msgstr ""
+
+#: archive.php:55
+msgid "Newer posts &rarr;"
+msgstr ""
+
+#: archive.php:57
+msgid "&larr; Older posts"
+msgstr ""
+
+#: page.php:14
+#: index.php:46
+msgid "Next page:"
+msgstr ""
+
+#: page.php:15
+#: index.php:47
+msgid "Next page"
+msgstr ""
+
+#: page.php:17
+#: index.php:49
+msgid "Previous page:"
+msgstr ""
+
+#: page.php:18
+#: index.php:50
+msgid "Previous page"
+msgstr ""
+
+#: footer.php:3
+msgid "E-mail"
+msgstr ""
+
+#: footer.php:3
+msgid "Disclaimer"
+msgstr ""

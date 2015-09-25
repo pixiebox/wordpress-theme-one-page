@@ -1,0 +1,279 @@
+# Copyright (C) 2015 Pixiebox
+# This file is distributed under the GPL.
+msgid ""
+msgstr ""
+"Project-Id-Version: onepixel 1.01\n"
+"Report-Msgid-Bugs-To: http://pixiebox.com/contact\n"
+"POT-Creation-Date: 2015-05-13 09:09:55+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Patrick Danhof <info@pixiebox.com>\n"
+"Language: nl_NL\n"
+
+#: functions.php:26
+#: functions.php:738
+msgid "Primary Menu"
+msgstr "Hoofd Menu"
+
+#: functions.php:27
+msgid "Secundairy Menu"
+msgstr "Onderliggend Menu"
+
+#: functions.php:119
+msgid "Main Sidebar"
+msgstr "Hoofd Sidebar"
+
+#: functions.php:389
+#: functions.php:1042
+msgid "Read More &raquo;"
+msgstr "Lees Meer &raquo;"
+
+#: functions.php:396
+msgid "That email appears to be invalid."
+msgstr "Het email adres klopt niet."
+
+#: functions.php:397
+msgid "There were errors in submitting your comment; complete the missing fields and try again!"
+msgstr "Er is iets mis gegaan tijdens het plaatsen van uw reactie; vul de lege velden in en probeer het nog eens!"
+
+#: functions.php:398
+msgid "Your comment was either a duplicate or you are posting too rapidly. <a href=\"%s\">Edit your comment</a>"
+msgstr "Uw reactie is al geplaatst of u plaatst uw reactie te snel. <a href=\"%s\">Bewerk uw reactie</a>"
+
+#: functions.php:399
+msgid "Processing..."
+msgstr "Verwerken..."
+
+#: functions.php:400
+msgid "This is a required field."
+msgstr "Dit is een verplicht veld."
+
+#: functions.php:461
+msgid "You said"
+msgstr "U zegt"
+
+#: functions.php:480
+msgid "Thanks for commenting! Your comment has been approved. <a href=\"%s\">Read your comment</a>"
+msgstr "Bedankt voor uw reactie! Uw reactie is goedgekeurd. <a href=\"%s\">Lees uw reactie</a>"
+
+#: functions.php:489
+msgid "There was an error posting your comment. Try again later!"
+msgstr "Er heeft zich een fout voor gedaan bij het plaatsen van uw reactie. Probeer het later nog eens!"
+
+#: functions.php:529
+msgid "Layout properties"
+msgstr "Opmaak eigenshappen"
+
+#: functions.php:535
+msgid "Width"
+msgstr "Breedte"
+
+#: functions.php:537
+msgid "Full width"
+msgstr "Volle breedte"
+
+#: functions.php:538
+msgid "Container"
+msgstr "Container"
+
+#: functions.php:546
+msgid "Swipe orientation"
+msgstr "Swipe richting"
+
+#: functions.php:548
+msgid "default"
+msgstr "standaard"
+
+#: functions.php:549
+msgid "left to right"
+msgstr "links naar rechts"
+
+#: functions.php:550
+msgid "right to left"
+msgstr "rechts naar links"
+
+#: functions.php:551
+msgid "upwards"
+msgstr "omhoog"
+
+#: functions.php:557
+msgid "Choose background color"
+msgstr "Kies achtergrond kleur"
+
+#: functions.php:564
+msgid "Choose background image"
+msgstr "Kies achtergrond afbeelding"
+
+#: functions.php:570
+#: functions.php:675
+msgid "Enable srcBox"
+msgstr "Gebruik srcBox"
+
+#: functions.php:576
+msgid "Choose text color"
+msgstr "Kies tekst kleur"
+
+#: functions.php:583
+msgid "Panel Background properties"
+msgstr "Paneel Achtergrond eigenschappen"
+
+#: functions.php:588
+#: functions.php:614
+msgid "Properties"
+msgstr "Eigenschappen"
+
+#: functions.php:590
+msgid "Panel"
+msgstr "Paneel"
+
+#: functions.php:610
+msgid "Parallax Background properties"
+msgstr "Parallax Achtergrond eigenschappen"
+
+#: functions.php:618
+msgid "Parallax {#}"
+msgstr "Parallax {#}"
+
+#: functions.php:651
+msgid "Gallery"
+msgstr "Gallerij"
+
+#: functions.php:660
+msgid "Layout"
+msgstr "Layout"
+
+#: functions.php:662
+msgid "1 column"
+msgstr "1 kolom"
+
+#: functions.php:663
+msgid "2 columns"
+msgstr "2 kolommen"
+
+#: functions.php:664
+msgid "3 columns"
+msgstr "3 kolommen"
+
+#: functions.php:670
+msgid "Apply Masonry"
+msgstr "Masonry toepassen"
+
+#: functions.php:801
+msgid "srcBox breakpoints"
+msgstr "srcBox breakpoints"
+
+#: functions.php:808
+msgid "Breakpoints"
+msgstr "Breakpoints"
+
+#: functions.php:816
+msgid "Breakpoint mobile"
+msgstr "Breakpoint mobiel"
+
+#: functions.php:830
+msgid "Breakpoint mobile retina @2"
+msgstr "Breakpoint mobiel retina @2"
+
+#: functions.php:834
+msgid "Breakpoint tablet"
+msgstr "Breakpoint tablet"
+
+#: functions.php:838
+msgid "Breakpoint desktop"
+msgstr "Breakpoint desktop"
+
+#: functions.php:842
+msgid "Breakpoint tablet retina @2 / mobile retina @3"
+msgstr "Breakpoint tablet retina @2 / mobiel retina @3"
+
+#: functions.php:894
+msgid "Preferably check all breakpoints to load the most appropiate image for each device."
+msgstr "Bij voorkeur alle breakpoints selecteren om de meest geschikte afbeelding te laden voor elk apparaat."
+
+#: archive.php:34
+#: search.php:21
+#: single.php:22
+msgid "Comments"
+msgstr "Reacties"
+
+#: archive.php:48
+#: search.php:40
+#: single.php:50
+msgid "Next:"
+msgstr "Volgende:"
+
+#: archive.php:50
+#: search.php:38
+#: single.php:53
+msgid "Previous:"
+msgstr "Vorige:"
+
+#: single.php:32
+msgid "This post was written by %s"
+msgstr "Dit bericht is geschreven door %s"
+
+#: single.php:51
+msgid "Next post:"
+msgstr "Volgend bericht:"
+
+#: single.php:54
+msgid "Previous post:"
+msgstr "Vorig bericht:"
+
+#: search.php:12
+msgid "Search Results for: %s"
+msgstr "Zoekresultaten voor: %s"
+
+#: search.php:31
+msgid "Nothing Found"
+msgstr "Niks gevonden"
+
+#: search.php:33
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr "Sorry, maar er komt niets overeen met de zoek criteria. Probeer het nog eens met andere zoekwoorden."
+
+#: search.php:41
+msgid "Next search results:"
+msgstr "Volgende zoekresultaten:"
+
+#: search.php:39
+msgid "Previous search results:"
+msgstr "Vorige zoekresultaten:"
+
+#: archive.php:55
+msgid "Newer posts &rarr;"
+msgstr "Nieuwere berichten &rarr;"
+
+#: archive.php:57
+msgid "&larr; Older posts"
+msgstr "Oudere berichten:"
+
+#: page.php:14
+#: index.php:46
+msgid "Next page:"
+msgstr "Volgende pagina:"
+
+#: page.php:15
+#: index.php:47
+msgid "Next page"
+msgstr "Volgende pagina"
+
+#: page.php:17
+#: index.php:49
+msgid "Previous page:"
+msgstr "Vorige pagina:"
+
+#: page.php:18
+#: index.php:50
+msgid "Previous page"
+msgstr "Vorige pagina"
+
+#: footer.php:3
+msgid "E-mail"
+msgstr "E-mail"
+
+#: footer.php:3
+msgid "Disclaimer"
+msgstr "Disclaimer"
