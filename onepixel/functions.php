@@ -950,36 +950,41 @@ function srcbox_post_thumbnail_html( $html ){
 
 	if ( empty( $html ) || empty( $options ) ) return $html;
 
-	preg_match(
-		'/< *img[^>]*src *="[^"]*(uploads\/)(.+\/.+\-[0-9]+[x[0-9]+]?(.jpg|.jpeg|.png|.gif))/i',
-		preg_replace(
-			'/(< *img[^>]*src *="[^"]*)(https?:\/\/)(.+\/)(wp-content\/)(.+\/)(.+\-)([0-9]+[x[0-9]+]?)(.jpg|.jpeg|.png|.gif)/i',
-			'$1$2$3$4$5${6}640$8',
-			$html
-		),
-		$is_src_boxed
-	);
-
 	$upload_dir = wp_upload_dir();
 
-	if ( !empty( $is_src_boxed )
-	&& file_exists( $upload_dir['basedir'] . '/' . $is_src_boxed[2] ) ) :
-		$html = preg_replace(
-			'/src="(https?:\/\/.+\/)([A-Za-z0-9]+[-])([0-9]+[x[0-9]+]?)(.jpg|.jpeg|.png|.gif)"/',
-			'src="' . get_template_directory_uri() . '/images/dot.gif" data-breakpoint="$1" data-img="$2{folder}$4"',
-			preg_replace(
-				'/(width|height)="[0-9]*"/',
-				'',
-				preg_replace(
-					'/<img ?([^>]*)class="([^"]*)"?/',
-					'<img $1 class="$2 srcbox lag"',
-					$html
-				)
-			)
-		);
-	endif;
+	$dom = new DOMDocument('1.0', 'UTF-8');
+	libxml_use_internal_errors(true);
+	$dom->loadHTML('<div>' .mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8').'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+	$dom->encoding = 'UTF-8';
 
-	return $html;
+	$images = $dom->getElementsByTagName('img');
+
+	foreach ( $images as $img ) :
+		$img_src = $img->getAttribute( 'src' );
+
+		preg_match(
+			'/(https?:\/\/.+\/uploads\/)(.+\/)(.+\-[0-9]+[x[0-9]+]?\.jpg|\.jpeg|\.png|\.gif)/i',
+			preg_replace(
+				'/(https?:\/\/.+\/wp-content\/.+\/.+\-)([0-9]+[x[0-9]+]?)(.jpg|.jpeg|.png|.gif)/i',
+				'${1}640$3',
+				$img_src
+			),
+			$is_src_boxed
+		);
+
+		if ( !empty( $is_src_boxed )
+		&& file_exists( $upload_dir['basedir'] . '/' .$is_src_boxed[2] . '/' .$is_src_boxed[3] ) ) :
+
+			$img->removeAttribute( 'height' );
+			$img->removeAttribute( 'width' );
+			$img->setAttribute( 'src', get_template_directory_uri() . '/images/dot.gif' );
+			$img->setAttribute( 'class', $img->getAttribute( 'class' ) . ' lag srcbox' );
+			$img->setAttribute( 'data-breakpoint',  $upload_dir['baseurl'] . '/' .  $is_src_boxed[2] );
+			$img->setAttribute( 'data-img', $is_src_boxed[3] );
+		endif;
+	endforeach;
+
+	return $dom->saveHTML($dom->documentElement->firstChild) . PHP_EOL . PHP_EOL;
 }
 add_filter( 'the_content', 'srcbox_post_thumbnail_html', 10 );
 add_filter( 'get_avatar', 'srcbox_post_thumbnail_html', 10 );
@@ -1056,4 +1061,3 @@ function onepixel_search_form_modify( $html ){
 	return str_replace( 'class="search-submit"', 'class="search-submit screen-reader-text"', $html );
 }
 add_filter( 'get_search_form', 'onepixel_search_form_modify' );
-

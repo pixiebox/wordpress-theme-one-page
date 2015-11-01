@@ -26,7 +26,7 @@ msgid "Main Sidebar"
 msgstr "Hoofd Sidebar"
 
 #: functions.php:389
-#: functions.php:1042
+#: functions.php:1047
 msgid "Read More &raquo;"
 msgstr "Lees Meer &raquo;"
 
