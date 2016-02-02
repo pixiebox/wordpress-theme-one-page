@@ -341,7 +341,7 @@ function html_menu_class(){
 ?>
 	<script type="text/javascript">
 		var el_html = document.querySelector('html');
-		el_html.className = el_html.className + 'has-menu';
+		el_html.className = el_html.className + ' has-menu';
 	</script>
 <?php
 	endif;
@@ -362,20 +362,14 @@ function add_theme_scripts(){
 	// Add Lato font, used in the main stylesheet.
 	wp_enqueue_style( 'onepage-lato', onepage_font_url() );
 
-	wp_register_style( 'dialogbox-css', get_template_directory_uri() . '/css/dialogBox.css' );
-	wp_enqueue_style( 'dialogbox-css' );
-
 	wp_register_style( 'style', get_template_directory_uri() . '/style.css' );
 	wp_enqueue_style( 'style' );
 
 	wp_register_script( 'bootstrap-js', get_template_directory_uri() . '/libs/bootstrap/js/bootstrap.js' );
 	wp_enqueue_script( 'bootstrap-js' );
 
-	wp_register_script( 'srcbox-js', get_template_directory_uri() . '/js/srcBox.js' );
-	wp_enqueue_script( 'srcbox-js' );
-
-	wp_register_script( 'dialogbox-js', get_template_directory_uri() . '/js/dialogBox.js', array( 'jquery' ) );
-	wp_enqueue_script( 'dialogbox-js' );
+	//wp_register_script( 'srcbox-js', get_template_directory_uri() . '/js/srcBox.js' );
+	//wp_enqueue_script( 'srcbox-js' );
 
 	wp_register_script( 'head-load-js', get_template_directory_uri() . '/js/head.load.js' );
 	wp_enqueue_script( 'head-load-js' );
@@ -475,9 +469,9 @@ function onepage_ajax_comments( $comment_ID, $comment_status ){
 
 				wp_notify_postauthor( $comment_ID );
 				$return = array( 
-					'response'=>$output, 
-					'success' => 1, 
-					'status'=> sprintf( __( 'Thanks for commenting! Your comment has been approved. <a href="%s">Read your comment</a>', 'onepixel' ), "#comment-$comment_ID" ) 
+					'response'  => $output,
+					'success'   => 1,
+					'status'    => sprintf( __( 'Thanks for commenting! Your comment has been approved. <a href="%s">Read your comment</a>', 'onepixel' ), "#comment-$comment_ID" ) 
 				);
 				wp_send_json( $return );
 				break;
@@ -782,10 +776,11 @@ function bootstrap_nav_menu(){
  *
  * @since One Pixel 1.0.0
  */
+/*
 function srcbox_add_admin_menu(){ 
 	add_theme_page( 'srcBox', 'srcBox', 'manage_options', 'srcBox', 'srcbox_options_page' );
 }
-
+*/
 /**
  * Register srcbox settings page.
  * Add settings sections for srcbox settings page.
@@ -793,6 +788,7 @@ function srcbox_add_admin_menu(){
  *
  * @since One Pixel 1.0.0
  */
+/*
 function srcbox_settings_init(){ 
 	register_setting( 'srcPage', 'srcbox_settings' );
 
@@ -811,7 +807,7 @@ function srcbox_settings_init(){
 		'srcbox_srcPage_section'
 	);
 }
-
+*/
 /**
  * Add values to srcBox settings page.
  *
@@ -819,6 +815,7 @@ function srcbox_settings_init(){
  *
  * @return array 	breakpoint values
  */
+/*
 function srcbox_breakpoints(){
 	return array(
 		array(
@@ -843,12 +840,13 @@ function srcbox_breakpoints(){
 		),
 	);
 }
-
+*/
 /**
  * Render labels and input fields for srcbox settings page.
  *
  * @since One Pixel 1.0.0
  */
+/*
 function srcbox_checkbox_field_dimensions_render(){ 
 	$options = get_option( 'srcbox_settings' );
 	if ( !$options ) $options = array();
@@ -882,6 +880,7 @@ function srcbox_checkbox_field_dimensions_render(){
 <?php
 	endforeach;
 }
+*/
 
 /**
  * Callback for srcbox settings page.
@@ -890,13 +889,15 @@ function srcbox_checkbox_field_dimensions_render(){
  *
  * echo callback
  */
+/*
 function srcbox_settings_section_callback(){ 
 	_e( 'Preferably check all breakpoints to load the most appropiate image for each device.', 'onepixel' );
 }
-
+*/
 /**
  * Create srcbox settings page.
  */
+/*
 function srcbox_options_page(){
 ?>
 	<form action='options.php' method='post'>
@@ -911,7 +912,7 @@ function srcbox_options_page(){
 }
 add_action( 'admin_menu', 'srcbox_add_admin_menu' );
 add_action( 'admin_init', 'srcbox_settings_init' );
-
+*/
 /**
  * The filter runs when resizing an image to make a thumbnail or intermediate size.
  * The new image filename is more suitable for the srcBox and SliderBox functionalities.
@@ -922,6 +923,7 @@ add_action( 'admin_init', 'srcbox_settings_init' );
  *
  * @return string $image	New image name
  */
+/*
 function srcbox_rename_intermediates( $image ){
 	$new_name = preg_replace(
 		'/(.+\\-)(([0-9]+)x([0-9]+)-)?([0-9]+)x([0-9]+)(.jpg|.jpeg|.png|.gif)/',
@@ -934,7 +936,7 @@ function srcbox_rename_intermediates( $image ){
 	return $image;
 }
 add_filter( 'image_make_intermediate_size', 'srcbox_rename_intermediates' );
-
+*/
 /**
  * Apply data attributes on thumbnails for srcBox responsive images.
  *
@@ -945,6 +947,7 @@ add_filter( 'image_make_intermediate_size', 'srcbox_rename_intermediates' );
  *
  * @return string $html
  */
+/*
 function srcbox_post_thumbnail_html( $html ){
 	$options = get_option( 'srcbox_settings' );
 
@@ -988,7 +991,7 @@ function srcbox_post_thumbnail_html( $html ){
 }
 add_filter( 'the_content', 'srcbox_post_thumbnail_html', 10 );
 add_filter( 'get_avatar', 'srcbox_post_thumbnail_html', 10 );
-
+*/
 /**
  * Page Slug Body Class
  *
