@@ -62,49 +62,37 @@ function onepixel_setup(){
 	 * @link https://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
 	 */
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'mobile', 480 );
-	add_image_size( 'retina@2', 640 );
-	add_image_size( 'tablet', 900 );
-	add_image_size( 'desktop', 1170 );
-	add_image_size( 'retina@3', 2048 );
-
-	/* Set default breakpoints for srcBox responsive images. */
-	$options = get_option( 'srcbox_settings' );
-
-	if ( empty( $options ) ) :
-		$_breakpoints = srcbox_breakpoints();
-
-		foreach ( $_breakpoints as $breakpoint ) :
-			$update_breakpoints[] = $breakpoint['breakpoint_id'];
-		endforeach;
-
-		update_option( 'srcbox_settings', $update_breakpoints );
-	endif;
 
 	/* add post-formats to post_type 'page' */
 	add_post_type_support( 'page', 'post-formats' );
 
-	/* add 'One page' category */
-	if ( file_exists ( ABSPATH.'/wp-admin/includes/taxonomy.php' ) ) :
-		require_once ( ABSPATH.'/wp-admin/includes/taxonomy.php' ); 
-
-		if ( ! get_cat_ID( 'One page' ) ) :
-			$onepage_cat_id = wp_create_category( 'One page' );
-			define( 'PROTECTED_TERM_ID', $onepage_cat_id );
-		endif;
-	endif;
-
-	if ( !defined( 'PROTECTED_TERM_ID' ) ) :
-		$idObj = get_category_by_slug( 'one-page' ); 
-		$onepage_cat_id = $idObj->term_id;
-		define( 'PROTECTED_TERM_ID', $onepage_cat_id );
-	endif;
-
+  
 	/* Do not spam the database with numerous revisions */
 	define( 'WP_POST_REVISIONS', 2 );
 }
 add_action( 'after_setup_theme', 'onepixel_setup' );
 
+function add_taxonomies_to_pages() {
+  register_taxonomy_for_object_type( 'post_tag', 'page' );
+  register_taxonomy_for_object_type( 'category', 'page' );
+}
+add_action( 'init', 'add_taxonomies_to_pages' );
+
+if ( ! is_admin() ) {
+  add_action( 'pre_get_posts', 'category_and_tag_archives' );
+}
+
+function category_and_tag_archives( $wp_query ) {
+  $my_post_array = array('post','page');
+ 
+  if ( $wp_query->get( 'category_name' ) || $wp_query->get( 'cat' ) ) {
+    $wp_query->set( 'post_type', $my_post_array );
+  }
+
+  if ( $wp_query->get( 'tag' ) ) {
+    $wp_query->set( 'post_type', $my_post_array );
+  }
+}
 /**
  * Register widget area.
  *
@@ -120,106 +108,6 @@ function onepixel_widgets_init(){
 	) );
 }
 add_action( 'widgets_init', 'onepixel_widgets_init' );
-
-/**
- * Adds custom sizes to Media Library.
- *
- * @since One Pixel 1.0.0
- *
- * @param array $defaultSizes WordPress Sizes.
- *
- * @return array Default sizes merged with custom sizes.
- */
-function addMySizes ( $defaultSizes ) {
-	$mySizes = array(
-		'desktop' 	=> 'desktop',
-		'mobile' 		=> 'mobile',
-		'retina@2' 	=> 'retina@2',
-		'retina@3' 	=> 'retina@3',
-		'tablet' 		=> 'tablet'
-	);  
-
-	return array_merge( $defaultSizes, $mySizes );
-}  
-add_filter( 'image_size_names_choose', 'addMySizes' );
-
-/**
- * Remove the delete option for the 'One page' category.
- *
- * @since One Pixel 1.0.0
- *
- * @param array $actions 	WordPress' default row actions.
- * @param array $tag 			List item.
- *
- * @return array Default sizes merged with custom sizes.
- */
-function category_row_actions( $actions, $tag ) {
-	if ( $tag->term_id == PROTECTED_TERM_ID ) unset( $actions['delete'] );
-
-	return $actions;
-}
-
-/**
- * Toggle Custom Meta Boxes when 'One page' category or 'Gallery' format is chosen
- *
- * @since One Pixel 1.0.0
- *
- * @param string $hook The current Admin Dashboard page
- */
-function admin_post( $hook ){
-	if( $hook != 'post.php' ) 
-		return;
-
-	add_action( 'admin_footer', 'admin_post_js' );
-}
-
-function admin_post_js() {
-?>
-	<script type="text/javascript">
-	jQuery(document).ready(function() {
-		var el_cat_onepage = jQuery('#categorychecklist input[value="<?php echo PROTECTED_TERM_ID; ?>"]');
-		var properties = jQuery('#postbox-container-2');
-		var onepage_properties = jQuery('#background-panel-metabox, #background-parallax-metabox, #layout_metabox', properties);
-
-		function toggle_onepage_properties () {
-			if (el_cat_onepage.prop('checked')) {
-				onepage_properties.show();
-			} else {
-				onepage_properties.hide();
-			}
-		}
-
-		toggle_onepage_properties();
-
-		el_cat_onepage.change(function (e) {
-			toggle_onepage_properties();
-		});
-
-		var elems_format = jQuery('#post-formats-select .post-format');
-		var format_properties = jQuery('#gallery_metabox', properties);
-
-		function toggle_gallery_properties () {
-			if (elems_format.filter(':checked').val() == 'gallery') {
-				format_properties.show();
-			} else {
-				format_properties.hide();
-			}
-		}
-
-		toggle_gallery_properties();
-
-		elems_format.on('change', function () {
-			toggle_gallery_properties();
-		});
-	});
-	</script>
-	<?php
-}
-
-if ( is_admin() ) :
-	add_filter( 'category_row_actions', 'category_row_actions', 10, 2 );
-	add_action( 'admin_enqueue_scripts', 'admin_post' );
-endif;
 
 /**
  * Implement the Custom Header feature.
@@ -251,83 +139,6 @@ function onepage_font_url(){
 
 	return $font_url;
 }
-
-/**
- * Make the enabled breakpoints available for srcBox and SliderBox on the frontend
- *
- * @since One Pixel 1.0.0
- */
-function breakpoints(){
-	$breakpoints = get_option( 'srcbox_settings' );
-
-	foreach ($breakpoints as $value) :
-		$breakpoint = explode( 'breakpoint_', $value )[1];
-
-		if ( $breakpoint == '480' ) :
-			$array[] = array(
-				'folder' 		=> $breakpoint,
-				'maxWidth' 	=> (int)$breakpoint
-			);
-		elseif ( $breakpoint == '640' ) :
-			$array[] = array(
-				'folder' 		=> $breakpoint,
-				'minWidth' 	=> 481,
-				'maxWidth' 	=> 767
-			);
-
-			$array[] = array(
-				'folder' 							=> '640',
-				'maxWidth' 						=> 320,
-				'minDevicePixelRatio' => 2
-			);
-		elseif ( $breakpoint == '900' ) :
-			$array[] = array(
-				'folder'	 	=> '900',
-				'minWidth' 	=> 768,
-				'maxWidth' 	=> 900
-			);
-
-			$array[] = array(
-				'folder' 		=> '900',
-				'minWidth' 	=> 748,
-				'maxWidth' 	=> 1024
-			);
-		elseif ( $breakpoint == '1170' ) :
-			$array[] = array(
-				'folder' 							=> '1170',
-				'minWidth' 						=> 320,
-				'maxWidth' 						=> 667,
-				'minDevicePixelRatio' => 2
-			);
-
-			$array[] = array(
-				'folder' 		=> '1170',
-				'minWidth'	=> 992
-			);
-		elseif ( $breakpoint == '2048' ) :
-			$array[] = array(
-				'folder' 							=> '2048',
-				'minWidth' 						=> 748,
-				'maxWidth' 						=> 1024,
-				'minDevicePixelRatio'	=> 2
-			);
-
-			$array[] = array(
-				'folder' 							=> '2048',
-				'minWidth' 						=> 414,
-				'maxWidth' 						=> 736,
-				'minDevicePixelRatio' => 3
-			);
-		endif;
-	endforeach;
-
-?>
-	<script type="text/javascript">
-		var json_breakpoints = <?php echo json_encode( $array ); ?>;
-	</script>
-<?php
-}
-add_action( 'wp_head', 'breakpoints' );
 
 function html_menu_class(){
 	$menu = wp_nav_menu(
@@ -368,15 +179,12 @@ function add_theme_scripts(){
 	wp_register_script( 'bootstrap-js', get_template_directory_uri() . '/libs/bootstrap/js/bootstrap.js' );
 	wp_enqueue_script( 'bootstrap-js' );
 
-	//wp_register_script( 'srcbox-js', get_template_directory_uri() . '/js/srcBox.js' );
-	//wp_enqueue_script( 'srcbox-js' );
-
 	wp_register_script( 'head-load-js', get_template_directory_uri() . '/js/head.load.js' );
 	wp_enqueue_script( 'head-load-js' );
 
 	wp_enqueue_script( 'jquery-masonry' );
 
-	wp_register_script( 'one-pixel', get_template_directory_uri() . '/js/one-pixel.js', array( 'jquery', 'jquery-masonry', 'srcbox-js', 'bootstrap-js' ) );
+	wp_register_script( 'one-pixel', get_template_directory_uri() . '/js/one-pixel.js', array( 'jquery', 'jquery-masonry', /*'srcbox-js',*/ 'bootstrap-js' ) );
 	wp_enqueue_script( 'one-pixel' );
 
 	wp_localize_script( 'one-pixel', 'objectL10n', array(
@@ -401,21 +209,6 @@ function add_theme_scripts(){
 		wp_enqueue_script( 'comment-reply' );
 }
 add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
-
-/**
- * Enqueue scripts and styles for the back end.
- *
- * @since One Pixel 1.0.0
- */
-function onepage_admin_css(){
-	global $post_type;
-
-	if ( in_array( $post_type, array( 'onepage_panels', 'onepage_panels' ) ) ) :	
-		echo '<link type="text/css" rel="stylesheet" href="' . esc_url( get_template_directory_uri() )  . '/css/onepage-admin.css" />';
-	endif;
-
-}
-add_action( 'admin_head', 'onepage_admin_css' );
 
 /**
  * Provide responses to comments.js based on detecting an XMLHttpRequest parameter.
@@ -518,7 +311,7 @@ if ( is_admin() ) :
 		$cmb_layout = new_cmb2_box( array(
 			'context'    		=> 'normal',
 			'id'            => 'layout_metabox',
-			'object_types'  => array( 'post' ), // Post type
+			'object_types'  => array( 'page', 'post' ), // Post type
 			'priority'   		=> 'high',
 			'title'         => __( 'Layout Properties', 'onepixel' ),
 		) );
@@ -771,227 +564,6 @@ function bootstrap_nav_menu(){
 	));
 }
 
-/**
- * Add options page for srcbox
- *
- * @since One Pixel 1.0.0
- */
-/*
-function srcbox_add_admin_menu(){ 
-	add_theme_page( 'srcBox', 'srcBox', 'manage_options', 'srcBox', 'srcbox_options_page' );
-}
-*/
-/**
- * Register srcbox settings page.
- * Add settings sections for srcbox settings page.
- * Add settings fields to sections for srcbox settings page.
- *
- * @since One Pixel 1.0.0
- */
-/*
-function srcbox_settings_init(){ 
-	register_setting( 'srcPage', 'srcbox_settings' );
-
-	add_settings_section(
-		'srcbox_srcPage_section', 
-		__( 'srcBox breakpoints', 'onepixel' ), 
-		'srcbox_settings_section_callback',
-		'srcPage'
-	);
-
-	add_settings_field(  
-		'srcbox_checkbox_field_dimensions',  
-		__( 'Breakpoints', 'onepixel' ),
-		'srcbox_checkbox_field_dimensions_render', 
-		'srcPage', 
-		'srcbox_srcPage_section'
-	);
-}
-*/
-/**
- * Add values to srcBox settings page.
- *
- * @since One Pixel 1.0.0
- *
- * @return array 	breakpoint values
- */
-/*
-function srcbox_breakpoints(){
-	return array(
-		array(
-			'breakpoint_id' => 'breakpoint_480',
-			'name'					=> __( 'Breakpoint mobile', 'onepixel' )
-		),
-		array(
-			'breakpoint_id' => 'breakpoint_640',
-			'name'					=> __( 'Breakpoint mobile retina @2', 'onepixel' )
-		),
-		array(
-			'breakpoint_id' => 'breakpoint_900',
-			'name'					=> __( 'Breakpoint tablet', 'onepixel' )
-		),
-		array(
-			'breakpoint_id' => 'breakpoint_1170',
-			'name'					=> __( 'Breakpoint desktop', 'onepixel' )
-		),
-		array(
-			'breakpoint_id' => 'breakpoint_2048',
-			'name'					=> __( 'Breakpoint tablet retina @2 / mobile retina @3', 'onepixel' )
-		),
-	);
-}
-*/
-/**
- * Render labels and input fields for srcbox settings page.
- *
- * @since One Pixel 1.0.0
- */
-/*
-function srcbox_checkbox_field_dimensions_render(){ 
-	$options = get_option( 'srcbox_settings' );
-	if ( !$options ) $options = array();
-	
-	$_breakpoints = srcbox_breakpoints();
-
-	foreach ( $_breakpoints as $breakpoint) :
-		$checked = ( empty( $options ) && $breakpoint['breakpoint_id'] !== 'breakpoint_2048' )
-		|| in_array($breakpoint['breakpoint_id'], $options )
-			? 'checked="checked"'
-			: '';
-?>
-<tr>
-	<th>
-	<?php
-	echo sprintf(
-		'<label><input type="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %4$s /> %3$s</label><br />',
-		'srcbox_settings',
-		$breakpoint['breakpoint_id'],
-		explode( '_', $breakpoint['breakpoint_id'] )[1],
-		$checked
-	);
-?>
-	</th>
-	<td>
-	<?php
-		echo $breakpoint['name'];
-	?>
-	</td>
-</tr>
-<?php
-	endforeach;
-}
-*/
-
-/**
- * Callback for srcbox settings page.
- *
- * @since One Pixel 1.0.0
- *
- * echo callback
- */
-/*
-function srcbox_settings_section_callback(){ 
-	_e( 'Preferably check all breakpoints to load the most appropiate image for each device.', 'onepixel' );
-}
-*/
-/**
- * Create srcbox settings page.
- */
-/*
-function srcbox_options_page(){
-?>
-	<form action='options.php' method='post'>
-		<h2>srcBox</h2>
-		<?php
-		settings_fields( 'srcPage' );
-		do_settings_sections( 'srcPage' );
-		submit_button();
-		?>
-	</form>
-<?php
-}
-add_action( 'admin_menu', 'srcbox_add_admin_menu' );
-add_action( 'admin_init', 'srcbox_settings_init' );
-*/
-/**
- * The filter runs when resizing an image to make a thumbnail or intermediate size.
- * The new image filename is more suitable for the srcBox and SliderBox functionalities.
- *
- * @since One Pixel 1.0.0
- *
- * @param string $image
- *
- * @return string $image	New image name
- */
-/*
-function srcbox_rename_intermediates( $image ){
-	$new_name = preg_replace(
-		'/(.+\\-)(([0-9]+)x([0-9]+)-)?([0-9]+)x([0-9]+)(.jpg|.jpeg|.png|.gif)/',
-		'$1$2$3$4$5$7',
-		$image
-	);
-	$did_it = rename( $image, $new_name );
-	if( $did_it ) return $new_name;
-
-	return $image;
-}
-add_filter( 'image_make_intermediate_size', 'srcbox_rename_intermediates' );
-*/
-/**
- * Apply data attributes on thumbnails for srcBox responsive images.
- *
- * @since One Pixel 1.0.0
- *
- * @link http://pixiebox.com/code/docs/srcbox
- * @param string $html
- *
- * @return string $html
- */
-/*
-function srcbox_post_thumbnail_html( $html ){
-	$options = get_option( 'srcbox_settings' );
-
-	if ( empty( $html ) || empty( $options ) ) return $html;
-
-	$upload_dir = wp_upload_dir();
-
-	$dom = new DOMDocument('1.0', 'UTF-8');
-	libxml_use_internal_errors(true);
-	$dom->loadHTML('<div>' .mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8').'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-	$dom->encoding = 'UTF-8';
-
-	$images = $dom->getElementsByTagName('img');
-
-	foreach ( $images as $img ) :
-		$img_src = $img->getAttribute( 'src' );
-
-		preg_match(
-			'/(https?:\/\/.+\/uploads\/)(.+\/)(.+\-[0-9]+[x[0-9]+]?\.jpg|\.jpeg|\.png|\.gif)/i',
-			preg_replace(
-				'/(https?:\/\/.+\/wp-content\/.+\/.+\-)([0-9]+[x[0-9]+]?)(.jpg|.jpeg|.png|.gif)/i',
-				'${1}640$3',
-				$img_src
-			),
-			$is_src_boxed
-		);
-
-		if ( !empty( $is_src_boxed )
-		&& file_exists( $upload_dir['basedir'] . '/' .$is_src_boxed[2] . '/' .$is_src_boxed[3] ) ) :
-
-			$img->removeAttribute( 'height' );
-			$img->removeAttribute( 'width' );
-			$img->setAttribute( 'src', get_template_directory_uri() . '/images/dot.gif' );
-			$img->setAttribute( 'class', $img->getAttribute( 'class' ) . ' lag srcbox' );
-			$img->setAttribute( 'data-breakpoint',  $upload_dir['baseurl'] . '/' .  $is_src_boxed[2] );
-			$img->setAttribute( 'data-img', $is_src_boxed[3] );
-		endif;
-	endforeach;
-
-	return $dom->saveHTML($dom->documentElement->firstChild) . PHP_EOL . PHP_EOL;
-}
-add_filter( 'the_content', 'srcbox_post_thumbnail_html', 10 );
-add_filter( 'get_avatar', 'srcbox_post_thumbnail_html', 10 );
-*/
 /**
  * Page Slug Body Class
  *

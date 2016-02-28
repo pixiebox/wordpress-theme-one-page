@@ -2,7 +2,8 @@
 	'use strict';
 	$(document).ready(function() {
 		// @link http://pixiebox.com/code/docs/srcbox
-		srcBox.init('.srcbox', {
+		/*
+    srcBox.init('.srcbox', {
 				breakpoints : json_breakpoints
 			, parentOffset: true 
 		});
@@ -33,7 +34,7 @@
 				.attr('data-rel', 'alert')
 				.attr('data-width', '100%');
 		});
-
+*/
 		/* Thanks to CSS Tricks for pointing out this bit of jQuery
 		http://css-tricks.com/equal-height-blocks-in-rows/
 		It's been modified into a function called at page load and then each time the page is resized.
@@ -91,7 +92,7 @@
 				if (callNow) func.apply(context, args);
 			};
 		};
-
+/*
 		var $postContainer = $('.post-container');
 
 		$(window).load(function(){
@@ -103,7 +104,7 @@
 				equalheight($(this).find('.post-content'));
 			});
 		}, 250));
-
+*/
 		if ( ('ontouchstart' in window) ) {
 			$('html').addClass('mobile');
 		} else {
@@ -125,10 +126,7 @@
 				'... <a href="' + item.guid + '">' + objectL10n.read_more + '</a>';
 		}
 
-		// document.addEventListener is a feature detection for IE9+, ScrollMagic supports IE9+
-		if (!document.addEventListener) $('html').addClass('lt9');
-
-		if (!('ontouchstart' in window) && document.addEventListener && $('body').hasClass('home')) {
+		if (!('ontouchstart' in window) && document.querySelectorAll('.sm-panel').length) {
 			var smPath = '//' + window.location.host +
 				'/wp-content/themes/onepixel/libs/scrollMagic/';
 

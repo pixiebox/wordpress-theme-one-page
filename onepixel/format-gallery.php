@@ -21,7 +21,6 @@ if ($masonry == '1') :
 <?php
 endif;
 
-$srcbox = get_post_meta( get_the_id(), 'srcBox', false )[0];
 $i = 0;
 
 foreach( $gallery['src'] as $src ) :
@@ -30,18 +29,7 @@ foreach( $gallery['src'] as $src ) :
 ?>
 	<div class="<?php echo $class_name; ?>">
 		<a href="<?php echo get_permalink( $thumb_img->ID ); ?>" rel="bookmark" title="<?php echo $thumb_img->post_title; ?>">
-		<?php
-			if ($srcbox == '1') :
-				$data = preg_replace(
-					'/(https?:\\/\\/.+\\/)(.+\\-)([0-9]+)(.jpg|.jpeg|.png|.gif)/',
-					'data-breakpoint="$1" data-img="$2{folder}$4"',
-					$src 
-				);
-			?>
-			<img alt="<?php echo $thumb_img->post_title; ?>" class="srcbox-portfolio lag" src="<?php echo get_template_directory_uri() ?>/images/dot.gif" <?php echo $data; ?> />
-		<?php else : ?>
 			<img src="<?php echo $src; ?>" />
-		<?php endif; ?>
 		</a>
 		<?php if (!empty($thumb_img->post_excerpt)) : ?>
 		<p class="gallery-caption">
